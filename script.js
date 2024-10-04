@@ -2,14 +2,18 @@ let notificationScheduled = false;
 let notificationTimeout;
 let countdownTimer;
 
+function playSound(soundId) {
+    const sound = document.getElementById(soundId);
+    sound.currentTime = 0; // Сбрасываем звук на начало
+    sound.play();
+}
+
 document.getElementById('notifyButton').addEventListener('click', () => {
-    // Проверяем, поддерживает ли браузер Notification API
     if (!('Notification' in window)) {
         alert('Ваш браузер не поддерживает уведомления.');
         return;
     }
 
-    // Запрашиваем разрешение на отправку уведомлений
     if (Notification.permission === 'granted') {
         registerServiceWorker();
     } else if (Notification.permission !== 'denied') {
@@ -50,11 +54,13 @@ function scheduleNotification(registration) {
     const timeUntilNotification = 60000; // 1 минута
     const endTime = Date.now() + timeUntilNotification;
 
-    // Запускаем таймер для обновления текста в <h1>
     countdownTimer = setInterval(() => {
         const timeLeft = Math.max(0, endTime - Date.now());
         const secondsLeft = Math.ceil(timeLeft / 1000);
-        document.getElementById('title').textContent = `Водопойка через ${secondsLeft} сек.`;
+        document.getElementById('title').textContent = `Жди уведомление через ${secondsLeft} сек.`;
+        document.getElementById('title').style.animation = 'none';
+        document.getElementById('title').offsetHeight; /* trigger reflow */
+        document.getElementById('title').style.animation = null; 
 
         if (timeLeft <= 0) {
             clearInterval(countdownTimer);
@@ -82,7 +88,9 @@ function showNotification(registration) {
             clearInterval(countdownTimer); // Останавливаем таймер
             clearTimeout(notificationTimeout); // Очищаем таймаут
             notificationScheduled = false; // Сброс флага
+            playSound('notificationSound'); // Воспроизводим звук
             document.getElementById('title').textContent = 'Выпить воды'; // Возвращаем исходный текст
+            document.getElementById('title').style.animation = 'slideIn 1s ease-in-out';
         })
         .catch(error => {
             console.error('Ошибка при показе уведомления:', error);
@@ -90,5 +98,7 @@ function showNotification(registration) {
             clearTimeout(notificationTimeout); // Очищаем таймаут
             notificationScheduled = false; // Сброс флага
             document.getElementById('title').textContent = 'Выпить воды'; // Возвращаем исходный текст
+            document.getElementById('title').style.animation = 'slideIn 1s ease-in-out';
         });
 }
+
