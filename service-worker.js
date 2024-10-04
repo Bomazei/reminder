@@ -3,12 +3,30 @@ self.addEventListener('notificationclick', event => {
     const action = event.action;
 
     if (action === 'confirm') {
-        console.log('Подтверждено');
+        // Обработка действия "Подтвердить"
+        console.log('Пользователь подтвердил напоминание');
+        notification.close();
+        clearInterval(countdownTimer); // Останавливаем таймер
+        clearTimeout(notificationTimeout); // Очищаем таймаут
+        notificationScheduled = false; // Сброс флага
+        document.getElementById('title').textContent = 'Выпить воды'; // Возвращаем исходный текст
     } else if (action === 'cancel') {
-        console.log('Отменено');
+        // Обработка действия "Отмена"
+        console.log('Пользователь отклонил напоминание');
+        notification.close();
+        clearInterval(countdownTimer); // Останавливаем таймер
+        clearTimeout(notificationTimeout); // Очищаем таймаут
+        notificationScheduled = false; // Сброс флага
+        document.getElementById('title').textContent = 'Выпить воды'; // Возвращаем исходный текст
+    } else {
+        // Если пользователь просто кликнул на уведомление
+        console.log('Пользователь кликнул на уведомление');
+        notification.close();
+        clearInterval(countdownTimer); // Останавливаем таймер
+        clearTimeout(notificationTimeout); // Очищаем таймаут
+        notificationScheduled = false; // Сброс флага
+        document.getElementById('title').textContent = 'Выпить воды'; // Возвращаем исходный текст
     }
-
-    notification.close();
 });
 
 self.addEventListener('install', event => {

@@ -1,0 +1,39 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f8ff; /* Светло-голубой фон */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #007acc; /* Темно-голубой цвет текста */
+}
+
+button {
+    background-color: #007acc; /* Темно-голубой цвет кнопки */
+    border: none;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #005b9f; /* Более темный голубой при наведении */
+}
+
+button img {
+    width: 80px;
+    height: 80px;
+}
