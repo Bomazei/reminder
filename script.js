@@ -60,7 +60,6 @@ function scheduleNotification(registration, seconds) {
     const timeUntilNotification = seconds * 1000;
     const endTime = Date.now() + timeUntilNotification;
 
-    setTimeout(() => {
         countdownTimer = setInterval(() => {
             const timeLeft = Math.max(0, endTime - Date.now());
             const secondsLeft = Math.ceil(timeLeft / 1000);
@@ -73,7 +72,6 @@ function scheduleNotification(registration, seconds) {
                 clearInterval(countdownTimer);
             }
         }, 1000);
-    }, 1000); // Задержка в 1 секунду перед запуском таймера
 
     notificationTimeout = setTimeout(() => {
         console.log('Создание уведомления запланировано');
